@@ -1,0 +1,93 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .habit-tracker {
+    max-width: 100%;
+    margin: 1rem;
+    padding: 1.5rem;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilos de tabs (botones de navegación) */
+  .tabs {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  
+  .tabs button {
+    flex: 1;
+    padding: 0.75rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .tabs button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Secciones */
+  .section {
+    display: none; /* Oculta secciones por defecto */
+  }
+  
+  .section.active {
+    display: block; /* Muestra solo la sección activa */
+  }
+  
+  /* Estilos del Formulario de Agregar Hábito */
+  #add-habit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  #add-habit-form input,
+  #add-habit-form button {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 4px;
+  }
+  
+  #add-habit-form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  #add-habit-form button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Estilos para la visualización de hábitos y gráficos */
+  #habit-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+  .habit-progress-item {
+    width: 100%;
+    padding: 1rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
