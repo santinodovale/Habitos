@@ -15,14 +15,34 @@
         </div>
 
         <!-- Sección para agregar un nuevo hábito -->
-        <div id="add-habit-section" class="section">
-            <h2>Agregar Nuevo Hábito</h2>
-            <form id="add-habit-form">
-                <input type="text" id="habit-name" placeholder="Nombre del Hábito" required>
-                <input type="number" id="habit-frequency" placeholder="Frecuencia (días)" required>
-                <button type="submit">Agregar Hábito</button>
-            </form>
-        </div>
+<div id="add-habit-section" class="section">
+  <h2>Agregar Nuevo Hábito</h2>
+  <form id="add-habit-form">
+      <input type="text" id="habit-name" placeholder="Nombre del Hábito" required>
+
+      <label>
+          <input type="radio" name="notification-type" value="diario" checked>
+          Notificación Diaria
+      </label>
+
+      <label>
+          <input type="radio" name="notification-type" value="frecuencia-horas">
+          Cada cuántas horas:
+          <input type="number" id="notification-frequency-hours" placeholder="Horas" min="1">
+      </label>
+
+      <label>
+          <input type="radio" name="notification-type" value="hora-especifica">
+          Hora específica del día:
+          <input type="time" id="specific-time">
+      </label>
+
+      <button type="submit">Agregar Hábito</button>
+  </form>
+</div>
+
+
+
 
         <!-- Sección para visualizar hábitos y sus gráficos -->
         <div id="view-habits-section" class="section">
