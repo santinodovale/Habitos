@@ -7,78 +7,113 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="habit-tracker">
+    <div class="seguimiento-habitos">
         <!-- Botones de navegación entre secciones -->
-        <div class="tabs">
-            <button onclick="showSection('add-habit-section')">Agregar Hábito</button>
-            <button onclick="showSection('view-habits-section')">Ver Hábitos</button>
+        <div class="pestañas">
+            <button onclick="mostrarSeccion('seccion-agregar-habito')">Agregar Hábito</button>
+            <button onclick="mostrarSeccion('seccion-ver-habitos')">Ver Hábitos</button>
         </div>
 
         <!-- Sección para agregar un nuevo hábito -->
-<div id="add-habit-section" class="section">
-  <h2>Agregar Nuevo Hábito</h2>
-  <form id="add-habit-form">
-      <input type="text" id="habit-name" placeholder="Nombre del Hábito" required>
+        <div id="seccion-agregar-habito" class="seccion activa">
+            <h2>Agregar Nuevo Hábito</h2>
+            <!-- Contenedor del contenido oculto -->
+            <div id="contenido-agregar-habito" class="contenido-oculto">
+                <form id="formulario-agregar-habito">
+                    <input type="text" id="nombre-habito" placeholder="Nombre del Hábito" required>
 
-      <label>
-          <input type="radio" name="notification-type" value="diario" checked>
-          Notificación Diaria
-      </label>
+                    <!-- Checkbox para activar notificación diaria -->
+                    <label>
+                        <input type="checkbox" id="notificacion-diaria" onclick="seleccionarDias()">
+                        Notificación Diaria
+                    </label>
 
-      <label>
-          <input type="radio" name="notification-type" value="frecuencia-horas">
-          Cada cuántas horas:
-          <input type="number" id="notification-frequency-hours" placeholder="Horas" min="1">
-      </label>
+                    <!-- Botones de cada día de la semana -->
+                    <div id="dias-semana">
+                        <input type="checkbox" id="lunes" name="dia" value="Lunes">
+                        <label for="lunes">L</label>
 
-      <label>
-          <input type="radio" name="notification-type" value="hora-especifica">
-          Hora específica del día:
-          <input type="time" id="specific-time">
-      </label>
+                        <input type="checkbox" id="martes" name="dia" value="Martes">
+                        <label for="martes">M</label>
 
-      <button type="submit">Agregar Hábito</button>
-  </form>
-</div>
+                        <input type="checkbox" id="miercoles" name="dia" value="Miércoles">
+                        <label for="miercoles">M</label>
 
+                        <input type="checkbox" id="jueves" name="dia" value="Jueves">
+                        <label for="jueves">J</label>
 
+                        <input type="checkbox" id="viernes" name="dia" value="Viernes">
+                        <label for="viernes">V</label>
 
+                        <input type="checkbox" id="sabado" name="dia" value="Sábado">
+                        <label for="sabado">S</label>
+
+                        <input type="checkbox" id="domingo" name="dia" value="Domingo">
+                        <label for="domingo">D</label>
+                    </div>
+
+                    <!-- Opciones de frecuencia de notificación siempre visibles -->
+                    <div id="opciones-notificacion">
+                        <label>
+                            <input type="radio" name="tipo-notificacion" value="frecuencia-horas">
+                            Cada cuántas horas:
+                            <input type="number" id="frecuencia-horas" placeholder="Horas" min="1">
+                        </label>
+
+                        <label>
+                            <input type="radio" name="tipo-notificacion" value="hora-especifica">
+                            Hora específica del día:
+                            <input type="time" id="hora-especifica">
+                        </label>
+                    </div>
+
+                    <button type="submit">Agregar Hábito</button>
+                </form>
+            </div>
+        </div>
 
         <!-- Sección para visualizar hábitos y sus gráficos -->
-        <div id="view-habits-section" class="section">
+        <div id="seccion-ver-habitos" class="seccion">
             <h2>Ver Hábitos y Progreso</h2>
-            <div id="habit-progress">
-                <!-- Aquí se generarán los gráficos para cada hábito -->
-                <div class="habit-progress-item">
+            <div id="progreso-habitos">
+                <div class="progreso-habito-item">
                     <h3>Hábito de Ejemplo</h3>
-                    <canvas id="habit-chart-example"></canvas>
+                    <canvas id="grafico-habito-ejemplo"></canvas>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Definimos la función showSection de manera global
-        function showSection(sectionId) {
-            // Ocultar todas las secciones
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
+        // Función para mostrar y ocultar el contenido del formulario de "Agregar Hábito"
+        function mostrarSeccion(idSeccion) {
+            document.querySelectorAll('.seccion').forEach(seccion => {
+                seccion.classList.remove('activa');
             });
             
-            // Mostrar solo la sección seleccionada
-            const selectedSection = document.getElementById(sectionId);
-            if (selectedSection) {
-                selectedSection.classList.add('active');
+            const seccionSeleccionada = document.getElementById(idSeccion);
+            if (seccionSeleccionada) {
+                seccionSeleccionada.classList.add('activa');
             } else {
-                console.error(`Sección con id ${sectionId} no encontrada.`);
+                console.error(`Sección con id ${idSeccion} no encontrada.`);
+            }
+
+            if (idSeccion === 'seccion-agregar-habito') {
+                // Alternar visibilidad del contenido al pulsar el botón "Agregar Hábito"
+                const contenido = document.getElementById('contenido-agregar-habito');
+                contenido.classList.toggle('visible');
             }
         }
 
-        // Esperamos a que el DOM esté cargado antes de mostrar la sección inicial
-        document.addEventListener("DOMContentLoaded", () => {
-            showSection('add-habit-section'); // Muestra "Agregar Hábito" por defecto al cargar la página
-        });
+        // Función para seleccionar todos los días cuando se activa "Notificación Diaria"
+        function seleccionarDias() {
+            const notificacionDiaria = document.getElementById('notificacion-diaria').checked;
+            const checkboxesDias = document.querySelectorAll('#dias-semana input[type="checkbox"]');
+            
+            checkboxesDias.forEach(checkbox => {
+                checkbox.checked = notificacionDiaria;
+            });
+        }
     </script>
-    <link rel="stylesheet" href="styles.css">
 </body>
 </html>
