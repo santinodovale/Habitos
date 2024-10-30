@@ -74,6 +74,21 @@
   display: block;
 }
 
+/* Mensaje de confirmación */
+#mensaje-confirmacion {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: #dff0d8; /* Fondo verde claro */
+  color: #3c763d; /* Texto verde oscuro */
+  border: 1px solid #d6e9c6; /* Borde verde */
+  border-radius: 4px;
+  text-align: center;
+}
+
+.oculto {
+  display: none;
+}
+
 /* Ocultar contenido de "Agregar Hábito" inicialmente */
 .contenido-oculto {
   display: none;
@@ -139,7 +154,8 @@
   background-color: #FFD700;
   color: white;
 }
-h2{
+
+h2 {
   margin-top: 0.5em;
   margin-bottom: 0.5em; 
 }
