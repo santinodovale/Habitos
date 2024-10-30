@@ -20,22 +20,49 @@
   display: flex;
   gap: 1rem;
   justify-content: center;
+  align-items: center; /* Alinea los elementos verticalmente */
   margin-bottom: 1rem;
 }
 
 .pestañas button {
-  flex: 1;
-  padding: 0.75rem;
+  flex: 1; /* Permite que los otros botones ocupen espacio */
+  padding: 0; /* Elimina el padding para que el tamaño sea uniforme */
+  width: 120px; /* Tamaño fijo para todos los botones */
+  height: 50px; /* Altura fija para todos los botones */
   background-color: #4CAF50;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
+  display: flex; /* Habilita flex para centrar el contenido */
+  align-items: center; /* Centra verticalmente */
+  justify-content: center; /* Centra horizontalmente */
 }
 
 .pestañas button:hover {
   background-color: #45a049;
+}
+
+/* Estilos del botón de la casita */
+.pestañas button:nth-child(2) {
+  width: 50px; /* Tamaño fijo para el botón de la casa */
+  height: 50px; /* Asegurarse de que ancho y alto sean iguales */
+  border-radius: 50%; /* Hace que el botón sea redondo */
+  padding: 5%; /* Sin padding para mantener el tamaño */
+  margin: 0;
+  box-sizing: border-box; /* Evita problemas de tamaño */
+  flex-grow: 0; /* Evita que el botón se expanda */
+}
+
+.pestañas button:nth-child(2):hover {
+  background-color: #45a049;
+}
+
+/* Estilos del ícono */
+.pestañas button:nth-child(2) i {
+  font-size: 24px; /* Ajusta el tamaño del ícono según sea necesario */
+  line-height: 1; /* Asegúrate de que el ícono esté centrado verticalmente */
 }
 
 /* Secciones */
@@ -111,4 +138,8 @@
 #dias-semana input[type="checkbox"]:checked + label {
   background-color: #FFD700;
   color: white;
+}
+h2{
+  margin-top: 0.5em;
+  margin-bottom: 0.5em; 
 }
