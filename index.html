@@ -9,78 +9,50 @@
 </head>
 <body>
     <div class="seguimiento-habitos">
-        <!-- Botones de navegación entre secciones -->
         <div class="pestañas">
             <button onclick="mostrarSeccion('seccion-agregar-habito')">Agregar Hábito</button>
-            <!-- Botón de inicio con ícono de casita -->
             <button onclick="mostrarSeccion('seccion-inicio')">
                 <i class="fas fa-home"></i>
             </button>
             <button onclick="mostrarSeccion('seccion-ver-habitos')">Ver Hábitos</button>
         </div>
 
-        <!-- Nueva sección de inicio -->
-        <div id="seccion-inicio" class="seccion activa">
-        </div>
+        <div id="seccion-inicio" class="seccion activa"></div>
 
-        <!-- Sección para agregar un nuevo hábito -->
         <div id="seccion-agregar-habito" class="seccion">
             <h2>Agregar Nuevo Hábito</h2>
             <form id="formulario-agregar-habito" onsubmit="return agregarHabito(event)">
                 <input type="text" id="nombre-habito" placeholder="Nombre del Hábito" required>
-
-                <!-- Checkbox para activar notificación diaria -->
                 <label>
                     <input type="checkbox" id="notificacion-diaria" onclick="seleccionarDias()">
                     Notificación Diaria
                 </label>
-
-                <!-- Botones de cada día de la semana -->
                 <div id="dias-semana">
-                    <input type="checkbox" id="lunes" name="dia" value="Lunes">
-                    <label for="lunes">L</label>
-
-                    <input type="checkbox" id="martes" name="dia" value="Martes">
-                    <label for="martes">M</label>
-
-                    <input type="checkbox" id="miércoles" name="dia" value="Miércoles">
-                    <label for="miércoles">M</label>
-
-                    <input type="checkbox" id="jueves" name="dia" value="Jueves">
-                    <label for="jueves">J</label>
-
-                    <input type="checkbox" id="viernes" name="dia" value="Viernes">
-                    <label for="viernes">V</label>
-
-                    <input type="checkbox" id="sabado" name="dia" value="Sábado">
-                    <label for="sabado">S</label>
-
-                    <input type="checkbox" id="domingo" name="dia" value="Domingo">
-                    <label for="domingo">D</label>
+                    <input type="checkbox" id="lunes" name="dia" value="Lunes"><label for="lunes">L</label>
+                    <input type="checkbox" id="martes" name="dia" value="Martes"><label for="martes">M</label>
+                    <input type="checkbox" id="miércoles" name="dia" value="Miércoles"><label for="miércoles">M</label>
+                    <input type="checkbox" id="jueves" name="dia" value="Jueves"><label for="jueves">J</label>
+                    <input type="checkbox" id="viernes" name="dia" value="Viernes"><label for="viernes">V</label>
+                    <input type="checkbox" id="sabado" name="dia" value="Sábado"><label for="sabado">S</label>
+                    <input type="checkbox" id="domingo" name="dia" value="Domingo"><label for="domingo">D</label>
                 </div>
-
-                <!-- Opciones de frecuencia de notificación siempre visibles -->
                 <div id="opciones-notificacion">
                     <label>
                         <input type="radio" name="tipo-notificacion" value="frecuencia-horas" onclick="seleccionarTipoNotificacion('frecuencia-horas')">
                         Cada cuántas horas:
                         <input type="number" id="frecuencia-horas" placeholder="Horas" min="1" disabled>
                     </label><br>
-
                     <label>
                         <input type="radio" name="tipo-notificacion" value="hora-especifica" onclick="seleccionarTipoNotificacion('hora-especifica')">
                         Hora específica del día:
                         <input type="time" id="hora-especifica" disabled>
                     </label>
                 </div>
-
                 <button type="submit">Agregar Hábito</button>
             </form>
-            <!-- Mensaje de confirmación -->
             <div id="mensaje-confirmacion" class="oculto">Se agregó tu hábito.</div>
         </div>
 
-        <!-- Sección para visualizar hábitos y sus gráficos -->
         <div id="seccion-ver-habitos" class="seccion">
             <h2>Ver Hábitos y Progreso</h2>
             <div id="progreso-habitos">
@@ -92,64 +64,9 @@
         </div>
     </div>
 
-    <script>
-        // Función para mostrar y ocultar el contenido de las secciones
-        function mostrarSeccion(idSeccion) {
-            document.querySelectorAll('.seccion').forEach(seccion => {
-                seccion.classList.remove('activa');
-            });
-            
-            const seccionSeleccionada = document.getElementById(idSeccion);
-            if (seccionSeleccionada) {
-                seccionSeleccionada.classList.add('activa');
-            } else {
-                console.error(`Sección con id ${idSeccion} no encontrada.`);
-            }
-        }
-
-        // Función para agregar un nuevo hábito
-        function agregarHabito(event) {
-            event.preventDefault(); // Evitar el envío del formulario
-
-            const nombreHábito = document.getElementById('nombre-habito').value;
-            if (nombreHábito) {
-                // Mostrar el mensaje de confirmación
-                const mensaje = document.getElementById('mensaje-confirmacion');
-                mensaje.classList.remove('oculto');
-
-                // Limpiar el formulario
-                document.getElementById('formulario-agregar-habito').reset();
-
-                // Ocultar el mensaje después de 3 segundos
-                setTimeout(() => {
-                    mensaje.classList.add('oculto');
-                }, 3000);
-            }
-        }
-
-        // Función para seleccionar todos los días cuando se activa "Notificación Diaria"
-        function seleccionarDias() {
-            const notificacionDiaria = document.getElementById('notificacion-diaria').checked;
-            const checkboxesDias = document.querySelectorAll('#dias-semana input[type="checkbox"]');
-            
-            checkboxesDias.forEach(checkbox => {
-                checkbox.checked = notificacionDiaria;
-            });
-        }
-
-        // Función para seleccionar el tipo de notificación
-        function seleccionarTipoNotificacion(tipo) {
-            const frecuenciaHorasInput = document.getElementById('frecuencia-horas');
-            const horaEspecificaInput = document.getElementById('hora-especifica');
-
-            if (tipo === 'frecuencia-horas') {
-                frecuenciaHorasInput.disabled = false;
-                horaEspecificaInput.disabled = true;
-            } else if (tipo === 'hora-especifica') {
-                frecuenciaHorasInput.disabled = true;
-                horaEspecificaInput.disabled = false;
-            }
-        }
-    </script>
+    <!-- Firebase Configuración para la versión 8 -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
