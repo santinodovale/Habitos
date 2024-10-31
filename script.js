@@ -16,19 +16,31 @@ const db = firebase.database();
 
 // Función para mostrar y ocultar secciones
 function mostrarSeccion(idSeccion) {
+    // Remover la clase 'activa' de todas las secciones
     document.querySelectorAll('.seccion').forEach(seccion => {
         seccion.classList.remove('activa');
     });
-    
+
+    // Activar la sección seleccionada
     const seccionSeleccionada = document.getElementById(idSeccion);
     if (seccionSeleccionada) {
         seccionSeleccionada.classList.add('activa');
         
+        // Cargar los hábitos cuando se muestra la sección
         if (idSeccion === 'seccion-ver-habitos') {
-            mostrarHabitos(); // Cargar los hábitos cuando se muestra la sección
+            mostrarHabitos();
         }
     } else {
         console.error(`Sección con id ${idSeccion} no encontrada.`);
+    }
+
+    // Actualizar la clase 'active' en los botones de navegación
+    document.querySelectorAll('.pestañas button').forEach(button => {
+        button.classList.remove('active');
+    });
+    const buttonSeleccionado = document.querySelector(`.pestañas button[onclick="mostrarSeccion('${idSeccion}')"]`);
+    if (buttonSeleccionado) {
+        buttonSeleccionado.classList.add('active');
     }
 }
 
@@ -104,19 +116,3 @@ function seleccionarTipoNotificacion(tipo) {
         horaEspecificaInput.disabled = false;
     }
 }
-
-function mostrarSeccion(seccionId) {
-    // Quita la clase 'active' de todos los botones
-    document.querySelectorAll('.pestañas button').forEach(button => button.classList.remove('active'));
-    
-    // Añade la clase 'active' al botón correspondiente
-    const boton = document.querySelector(`.pestañas button[onclick="mostrarSeccion('${seccionId}')"]`);
-    if (boton) boton.classList.add('active');
-    
-    // Oculta todas las secciones
-    document.querySelectorAll('.seccion').forEach(seccion => seccion.classList.remove('activa'));
-    
-    // Muestra la sección seleccionada
-    document.getElementById(seccionId).classList.add('activa');
-  }
-  
