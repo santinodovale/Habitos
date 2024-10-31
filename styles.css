@@ -164,3 +164,9 @@ h2 {
   margin-top: 0.5em;
   margin-bottom: 0.5em; 
 }
+
+.progreso-habito-item {
+  padding: 5%;
+  background-color: rgb(48, 39, 67);
+  border-radius: 8px;
+}
