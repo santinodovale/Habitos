@@ -7,8 +7,66 @@
 
 body {
   background-color: #0e0b10; 
+  font-family: Arial, sans-serif;
+  padding-top: 60px; /* Espacio para la barra de navegación fija */
 }
 
+/* Barra de navegación fija */
+.pestañas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  background-color: #1b1520;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Asegura que la barra quede en el frente */
+}
+
+/* Botones de navegación */
+.pestañas button {
+  flex: 1;
+  padding: 0;
+  width: 120px;
+  height: 50px;
+  background-color: #5e22bf;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pestañas button:hover {  
+  background-color: #6c49c5;
+}
+
+/* Botón de la casita redondo */
+.pestañas button:nth-child(2) {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin: 0;
+  flex-grow: 0;
+}
+
+.pestañas button:nth-child(2):hover {
+  background-color: #6c49c5;
+}
+
+.pestañas button:nth-child(2) i {
+  font-size: 24px;
+  line-height: 1;
+}
+
+/* Contenedor principal */
 .seguimiento-habitos {
   color: white;
   max-width: 100%;
@@ -16,58 +74,7 @@ body {
   padding: 1.5rem;
   background-color: #1b1520;
   border-radius: 8px;
-  font-family: Arial, sans-serif;
-  box-shadow: 0 2px 4px #110d14 (0, 0, 0, 0.1);
-}
-
-/* Estilos de pestañas (botones de navegación) */
-.pestañas {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  align-items: center; /* Alinea los elementos verticalmente */
-  margin-bottom: 1rem;
-}
-
-.pestañas button {
-  flex: 1; /* Permite que los otros botones ocupen espacio */
-  padding: 0; /* Elimina el padding para que el tamaño sea uniforme */
-  width: 120px; /* Tamaño fijo para todos los botones */
-  height: 50px; /* Altura fija para todos los botones */
-  background-color: #5e22bf;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  display: flex; /* Habilita flex para centrar el contenido */
-  align-items: center; /* Centra verticalmente */
-  justify-content: center; /* Centra horizontalmente */
-}
-
-.pestañas button:hover {  
-  background-color: #6c49c5;
-}
-
-/* Estilos del botón de la casita */
-.pestañas button:nth-child(2) {
-  width: 50px; /* Tamaño fijo para el botón de la casa */
-  height: 50px; /* Asegurarse de que ancho y alto sean iguales */
-  border-radius: 50%; /* Hace que el botón sea redondo */
-  padding: 5%; /* Sin padding para mantener el tamaño */
-  margin: 0;
-  box-sizing: border-box; /* Evita problemas de tamaño */
-  flex-grow: 0; /* Evita que el botón se expanda */
-}
-
-.pestañas button:nth-child(2):hover {
-  background-color: #6c49c5;
-}
-
-/* Estilos del ícono */
-.pestañas button:nth-child(2) i {
-  font-size: 24px; /* Ajusta el tamaño del ícono según sea necesario */
-  line-height: 1; /* Asegúrate de que el ícono esté centrado verticalmente */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Secciones */
@@ -83,27 +90,14 @@ body {
 #mensaje-confirmacion {
   margin-top: 1rem;
   padding: 0.5rem;
-  background-color: #dbc6e9; /* Fondo verde claro */
-  color: #5e22bf; /* Texto verde oscuro */
-  border: 1px solid #dbc6e9; /* Borde verde */
+  background-color: #dbc6e9;
+  color: #5e22bf;
+  border: 1px solid #dbc6e9;
   border-radius: 4px;
   text-align: center;
 }
 
-.oculto {
-  display: none;
-}
-
-/* Ocultar contenido de "Agregar Hábito" inicialmente */
-.contenido-oculto {
-  display: none;
-}
-
-.contenido-oculto.visible {
-  display: block;
-}
-
-/* Estilos del Formulario de Agregar Hábito */
+/* Formulario de Agregar Hábito */
 #formulario-agregar-habito {
   display: flex;
   flex-direction: column;
@@ -129,7 +123,7 @@ body {
   background-color: #6c49c5;
 }
 
-/* Estilos para los días de la semana */
+/* Días de la semana */
 #dias-semana {
   display: flex;
   gap: 0.5rem;
@@ -137,12 +131,13 @@ body {
 }
 
 #dias-semana label {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
+  padding: 5%;
   border: 2px solid #ffffff;
   border-radius: 50%;
   font-weight: bold;
@@ -166,6 +161,7 @@ h2 {
 }
 
 .progreso-habito-item {
+  margin-bottom: 1em;
   padding: 5%;
   background-color: rgb(48, 39, 67);
   border-radius: 8px;
