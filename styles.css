@@ -6,7 +6,7 @@
 }
 
 body {
-  background-color: #0e0b10; 
+  background-color: #0e0b10;
   font-family: Arial, sans-serif;
   padding-top: 60px; /* Espacio para la barra de navegación fija */
 }
@@ -22,7 +22,6 @@ body {
   justify-content: center;
   align-items: center;
   background-color: #1b1520;
-  padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000; /* Asegura que la barra quede en el frente */
 }
@@ -32,8 +31,8 @@ body {
   flex: 1;
   padding: 0;
   width: 120px;
-  height: 50px;
-  background-color: #5e22bf;
+  height: 70px;
+  background-color: #5e22bf00;
   color: white;
   border: none;
   border-radius: 4px;
@@ -42,28 +41,37 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
-.pestañas button:hover {  
-  background-color: #6c49c5;
+/* Línea morada debajo del botón activo */
+.pestañas button.active::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #5e22bf;
+  border-radius: 2px;
 }
 
 /* Botón de la casita redondo */
 .pestañas button:nth-child(2) {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  width: 120px;
+  height: 70px;
   margin: 0;
   flex-grow: 0;
-}
-
-.pestañas button:nth-child(2):hover {
-  background-color: #6c49c5;
 }
 
 .pestañas button:nth-child(2) i {
   font-size: 24px;
   line-height: 1;
+}
+
+/* Cambio de color al hacer hover en los botones */
+.pestañas button:hover {
+  background-color: #5e22bf30; /* Color de fondo suave al pasar el ratón */
 }
 
 /* Contenedor principal */
