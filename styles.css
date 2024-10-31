@@ -14,7 +14,7 @@ body {
   max-width: 100%;
   margin: 1rem;
   padding: 1.5rem;
-  background-color: #110d14;
+  background-color: #1b1520;
   border-radius: 8px;
   font-family: Arial, sans-serif;
   box-shadow: 0 2px 4px #110d14 (0, 0, 0, 0.1);
@@ -142,9 +142,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #110d14;
-  color: #5a5a5a;
-  border: 2px solid #5a5a5a;
+  color: #727272;
+  border: 2px solid #727272;
   border-radius: 50%;
   font-weight: bold;
   cursor: pointer;
