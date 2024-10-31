@@ -23,6 +23,10 @@ function mostrarSeccion(idSeccion) {
     const seccionSeleccionada = document.getElementById(idSeccion);
     if (seccionSeleccionada) {
         seccionSeleccionada.classList.add('activa');
+        
+        if (idSeccion === 'seccion-ver-habitos') {
+            mostrarHabitos(); // Cargar los hábitos cuando se muestra la sección
+        }
     } else {
         console.error(`Sección con id ${idSeccion} no encontrada.`);
     }
@@ -48,6 +52,33 @@ function agregarHabito(event) {
             mensaje.classList.add('oculto');
         }, 3000);
     }
+}
+
+// Función para mostrar los hábitos en la sección de "Ver Hábitos"
+function mostrarHabitos() {
+    const contenedorProgreso = document.getElementById('progreso-habitos');
+    contenedorProgreso.innerHTML = ''; // Limpiar el contenido antes de mostrar los hábitos
+
+    db.ref('habitos').on('value', (snapshot) => {
+        contenedorProgreso.innerHTML = ''; // Limpiar el contenido antes de mostrar los hábitos
+
+        snapshot.forEach((childSnapshot) => {
+            const habito = childSnapshot.val();
+            const habitoElemento = document.createElement('div');
+            habitoElemento.classList.add('progreso-habito-item');
+            habitoElemento.innerHTML = `
+                <h3>${habito.nombre}</h3>
+                <p>Fecha de creación: ${new Date(habito.fecha).toLocaleDateString()}</p>
+                <canvas id="grafico-${childSnapshot.key}"></canvas>
+            `;
+            contenedorProgreso.appendChild(habitoElemento);
+
+            // Aquí puedes agregar un gráfico para visualizar el progreso del hábito
+            // Si usas Chart.js, puedes inicializar el gráfico con el canvas
+            // const ctx = document.getElementById(`grafico-${childSnapshot.key}`).getContext('2d');
+            // Aquí puedes definir tu gráfico
+        });
+    });
 }
 
 // Función para seleccionar todos los días cuando se activa "Notificación Diaria"
