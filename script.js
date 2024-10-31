@@ -104,19 +104,3 @@ function seleccionarTipoNotificacion(tipo) {
         horaEspecificaInput.disabled = false;
     }
 }
-
-function mostrarSeccion(seccionId) {
-    // Quita la clase 'active' de todos los botones
-    document.querySelectorAll('.pestañas button').forEach(button => button.classList.remove('active'));
-    
-    // Añade la clase 'active' al botón correspondiente
-    const boton = document.querySelector(`.pestañas button[onclick="mostrarSeccion('${seccionId}')"]`);
-    if (boton) boton.classList.add('active');
-    
-    // Oculta todas las secciones
-    document.querySelectorAll('.seccion').forEach(seccion => seccion.classList.remove('activa'));
-    
-    // Muestra la sección seleccionada
-    document.getElementById(seccionId).classList.add('activa');
-  }
-  
