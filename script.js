@@ -44,7 +44,6 @@ function mostrarSeccion(idSeccion) {
     }
 }
 
-// Función para agregar un nuevo hábito
 function agregarHabito(event) {
     event.preventDefault();
     const nombreHábito = document.getElementById('nombre-habito').value;
@@ -54,15 +53,18 @@ function agregarHabito(event) {
         nuevoHabitoRef.set({
             nombre: nombreHábito,
             fecha: new Date().toISOString()
+        }).then(() => { // Solo muestra el mensaje si la adición fue exitosa
+            const mensaje = document.getElementById('mensaje-confirmacion');
+            mensaje.classList.remove('oculto'); // Muestra el mensaje
+            document.getElementById('formulario-agregar-habito').reset(); // Reinicia el formulario
+
+            // Oculta el mensaje después de 3 segundos
+            setTimeout(() => {
+                mensaje.classList.add('oculto');
+            }, 3000);
+        }).catch((error) => {
+            console.error("Error al agregar el hábito:", error);
         });
-
-        const mensaje = document.getElementById('mensaje-confirmacion');
-        mensaje.classList.remove('oculto');
-        document.getElementById('formulario-agregar-habito').reset();
-
-        setTimeout(() => {
-            mensaje.classList.add('oculto');
-        }, 3000);
     }
 }
 
@@ -76,21 +78,33 @@ function mostrarHabitos() {
 
         snapshot.forEach((childSnapshot) => {
             const habito = childSnapshot.val();
+            const habitoID = childSnapshot.key; // Obtener el ID del hábito
             const habitoElemento = document.createElement('div');
             habitoElemento.classList.add('progreso-habito-item');
             habitoElemento.innerHTML = `
                 <h3>${habito.nombre}</h3>
                 <p>Fecha de creación: ${new Date(habito.fecha).toLocaleDateString()}</p>
-                <canvas id="grafico-${childSnapshot.key}"></canvas>
+                <canvas id="grafico-${habitoID}"></canvas>
+                <button class="btn-eliminar" onclick="eliminarHabito('${habitoID}')">Eliminar</button> <!-- Botón de eliminar -->
             `;
             contenedorProgreso.appendChild(habitoElemento);
-
-            // Aquí puedes agregar un gráfico para visualizar el progreso del hábito
-            // Si usas Chart.js, puedes inicializar el gráfico con el canvas
-            // const ctx = document.getElementById(`grafico-${childSnapshot.key}`).getContext('2d');
-            // Aquí puedes definir tu gráfico
         });
     });
+}
+
+// Función para eliminar un hábito de Firebase con confirmación
+function eliminarHabito(habitoID) {
+    const confirmar = confirm("¿Estás seguro de que deseas eliminar este hábito?");
+    if (confirmar) {
+        db.ref('habitos/' + habitoID).remove()
+            .then(() => {
+                console.log("Hábito eliminado correctamente");
+                mostrarHabitos(); // Actualiza la lista después de eliminar
+            })
+            .catch((error) => {
+                console.error("Error al eliminar el hábito:", error);
+            });
+    }
 }
 
 // Función para seleccionar todos los días cuando se activa "Notificación Diaria"
