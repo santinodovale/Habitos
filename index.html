@@ -56,13 +56,15 @@
         <div id="seccion-ver-habitos" class="seccion">
             <h2>Ver Hábitos y Progreso</h2>
             <div id="progreso-habitos">
-                <div class="progreso-habito-item">
+                <div class="progreso-habito-item" data-habit-id="habito1">
                     <h3>Hábito de Ejemplo</h3>
+                    <p id="conteo-habito1">Conteo: 0</p>
+                    <button id="registrar-habito1" onclick="registrarAccion('habito1')">Registrar Acción</button>
                     <canvas id="grafico-habito-ejemplo"></canvas>
                 </div>
             </div>
         </div>
-    </div>
+        
 
     <!-- Firebase Configuración para la versión 8 -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>

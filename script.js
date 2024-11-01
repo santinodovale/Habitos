@@ -16,17 +16,14 @@ const db = firebase.database();
 
 // Función para mostrar y ocultar secciones
 function mostrarSeccion(idSeccion) {
-    // Remover la clase 'activa' de todas las secciones
     document.querySelectorAll('.seccion').forEach(seccion => {
         seccion.classList.remove('activa');
     });
 
-    // Activar la sección seleccionada
     const seccionSeleccionada = document.getElementById(idSeccion);
     if (seccionSeleccionada) {
         seccionSeleccionada.classList.add('activa');
         
-        // Cargar los hábitos cuando se muestra la sección
         if (idSeccion === 'seccion-ver-habitos') {
             mostrarHabitos();
         }
@@ -34,7 +31,6 @@ function mostrarSeccion(idSeccion) {
         console.error(`Sección con id ${idSeccion} no encontrada.`);
     }
 
-    // Actualizar la clase 'active' en los botones de navegación
     document.querySelectorAll('.pestañas button').forEach(button => {
         button.classList.remove('active');
     });
@@ -53,12 +49,11 @@ function agregarHabito(event) {
         nuevoHabitoRef.set({
             nombre: nombreHábito,
             fecha: new Date().toISOString()
-        }).then(() => { // Solo muestra el mensaje si la adición fue exitosa
+        }).then(() => {
             const mensaje = document.getElementById('mensaje-confirmacion');
             mensaje.classList.remove('oculto'); // Muestra el mensaje
             document.getElementById('formulario-agregar-habito').reset(); // Reinicia el formulario
 
-            // Oculta el mensaje después de 3 segundos
             setTimeout(() => {
                 mensaje.classList.add('oculto');
             }, 3000);
@@ -74,21 +69,53 @@ function mostrarHabitos() {
     contenedorProgreso.innerHTML = ''; // Limpiar el contenido antes de mostrar los hábitos
 
     db.ref('habitos').on('value', (snapshot) => {
-        contenedorProgreso.innerHTML = ''; // Limpiar el contenido antes de mostrar los hábitos
+        contenedorProgreso.innerHTML = '';
 
         snapshot.forEach((childSnapshot) => {
             const habito = childSnapshot.val();
-            const habitoID = childSnapshot.key; // Obtener el ID del hábito
             const habitoElemento = document.createElement('div');
             habitoElemento.classList.add('progreso-habito-item');
             habitoElemento.innerHTML = `
                 <h3>${habito.nombre}</h3>
                 <p>Fecha de creación: ${new Date(habito.fecha).toLocaleDateString()}</p>
-                <canvas id="grafico-${habitoID}"></canvas>
-                <button class="btn-eliminar" onclick="eliminarHabito('${habitoID}')">Eliminar</button> <!-- Botón de eliminar -->
+                <p>Veces registradas: <span id="contador-${childSnapshot.key}">0</span></p>
+                <div id="registrar-${childSnapshot.key}" class="registrar-accion" onclick="registrarAccion('${childSnapshot.key}')">Hecho</div>
+                <button class="btn-eliminar" onclick="eliminarHabito('${childSnapshot.key}')">Eliminar</button>
             `;
             contenedorProgreso.appendChild(habitoElemento);
+
+            // Inicializar el conteo desde la base de datos
+            actualizarConteo(childSnapshot.key);
         });
+    });
+}
+
+// Función para registrar la acción 
+function registrarAccion(habitoId) {
+    const contadorElemento = document.getElementById(`contador-${habitoId}`);
+    const today = new Date().toISOString().split('T')[0]; // Fecha actual en formato YYYY-MM-DD
+
+    // Incrementar el conteo en Firebase
+    db.ref(`habitos/${habitoId}/acciones`).child(today).transaction((currentCount) => {
+        return (currentCount || 0) + 1; // Incrementar el conteo
+    }).then(() => {
+        actualizarConteo(habitoId); // Actualizar el conteo en la interfaz
+    }).catch((error) => {
+        console.error("Error al registrar la acción:", error);
+    });
+}
+
+// Función para actualizar el conteo en la interfaz
+function actualizarConteo(habitoId) {
+    const contadorElemento = document.getElementById(`contador-${habitoId}`);
+    const habitRef = db.ref(`habitos/${habitoId}/acciones`);
+
+    habitRef.once('value', (snapshot) => {
+        let total = 0;
+        snapshot.forEach((childSnapshot) => {
+            total += childSnapshot.val() || 0; // Sumar todos los conteos
+        });
+        contadorElemento.textContent = total; // Actualizar el conteo en la interfaz
     });
 }
 
