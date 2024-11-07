@@ -27,8 +27,6 @@ function mostrarSeccion(idSeccion) {
         if (idSeccion === 'seccion-ver-habitos') {
             mostrarHabitos();
         }
-    } else {
-        console.error(`Sección con id ${idSeccion} no encontrada.`);
     }
 
     document.querySelectorAll('.pestañas button').forEach(button => {
@@ -57,9 +55,7 @@ function agregarHabito(event) {
             setTimeout(() => {
                 mensaje.classList.add('oculto');
             }, 3000);
-        }).catch((error) => {
-            console.error("Error al agregar el hábito:", error);
-        });
+        })
     }
 }
 
@@ -73,19 +69,24 @@ function mostrarHabitos() {
 
         snapshot.forEach((childSnapshot) => {
             const habito = childSnapshot.val();
+            const habitoID = childSnapshot.key;
+
+            // Crear un contenedor para cada hábito
             const habitoElemento = document.createElement('div');
             habitoElemento.classList.add('progreso-habito-item');
             habitoElemento.innerHTML = `
                 <h3>${habito.nombre}</h3>
                 <p>Fecha de creación: ${new Date(habito.fecha).toLocaleDateString()}</p>
-                <p>Veces registradas: <span id="contador-${childSnapshot.key}">0</span></p>
-                <div id="registrar-${childSnapshot.key}" class="registrar-accion" onclick="registrarAccion('${childSnapshot.key}')">Hecho</div>
-                <button class="btn-eliminar" onclick="eliminarHabito('${childSnapshot.key}')">Eliminar</button>
+                <p>Veces registradas: <span id="contador-${habitoID}">0</span></p>
+                <canvas id="grafico-${habitoID}" width="400" height="200"></canvas>
+                <button class="registrar-accion" onclick="registrarAccion('${habitoID}')">Hecho</button>
+                <button class="btn-eliminar" onclick="eliminarHabito('${habitoID}')">Eliminar</button>
             `;
             contenedorProgreso.appendChild(habitoElemento);
 
-            // Inicializar el conteo desde la base de datos
-            actualizarConteo(childSnapshot.key);
+            // Actualizar el conteo y mostrar el gráfico
+            actualizarConteo(habitoID);
+            mostrarGrafico(habitoID);
         });
     });
 }
@@ -100,9 +101,7 @@ function registrarAccion(habitoId) {
         return (currentCount || 0) + 1; // Incrementar el conteo
     }).then(() => {
         actualizarConteo(habitoId); // Actualizar el conteo en la interfaz
-    }).catch((error) => {
-        console.error("Error al registrar la acción:", error);
-    });
+    })
 }
 
 // Función para actualizar el conteo en la interfaz
@@ -128,9 +127,6 @@ function eliminarHabito(habitoID) {
                 console.log("Hábito eliminado correctamente");
                 mostrarHabitos(); // Actualiza la lista después de eliminar
             })
-            .catch((error) => {
-                console.error("Error al eliminar el hábito:", error);
-            });
     }
 }
 
@@ -157,3 +153,39 @@ function seleccionarTipoNotificacion(tipo) {
         horaEspecificaInput.disabled = false;
     }
 }
+function mostrarGrafico(habitoId) {
+    const ctx = document.getElementById(`grafico-${habitoId}`).getContext('2d');
+
+    db.ref(`habitos/${habitoId}/acciones`).on('value', (snapshot) => {
+        const fechas = [];
+        const conteos = [];
+
+        snapshot.forEach((childSnapshot) => {
+            fechas.push(childSnapshot.key); // Fecha (ej. "2024-11-07")
+            conteos.push(childSnapshot.val() || 0); // Conteo de acciones ese día
+        });
+
+        // Crear o actualizar el gráfico con los datos
+        new Chart(ctx, {
+            type: 'bar', // Cambia a 'line' si prefieres gráfico de líneas
+            data: {
+                labels: fechas,
+                datasets: [{
+                    label: 'Veces completado',
+                    data: conteos,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+}
+
